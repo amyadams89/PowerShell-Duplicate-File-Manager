@@ -1,0 +1,49 @@
+# PowerShell script output and logs
+*.log
+logs/
+output/
+test-results/
+
+# User-specific files
+*.local.ps1
+user-settings.json
+credentials.xml
+
+# PowerShell Studio files
+*.psproj
+*.psprojs
+*.pssession
+*.TempPoint.*
+
+# Test data
+test-data/
+sample-files/
+
+# Module packaging
+temp/
+dist/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Common backup files
+*~
+*.bak
+*.backup
+*.swp
