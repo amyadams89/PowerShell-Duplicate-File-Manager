@@ -1,0 +1,43 @@
+name: PowerShell Analysis
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: PSScriptAnalyzer
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Install PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module -Name PSScriptAnalyzer -Force
+      
+      - name: Run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          $scripts = Get-ChildItem -Path "./scripts" -Filter "*.ps1" -Recurse
+          foreach ($script in $scripts) {
+            Write-Host "Analyzing: $($script.FullName)"
+            $results = Invoke-ScriptAnalyzer -Path $script.FullName -ExcludeRule PSAvoidUsingWriteHost
+            $results | Format-Table -AutoSize
+            if ($results.Count -gt 0) {
+              $errorCount = ($results | Where-Object {$_.Severity -eq 'Error'}).Count
+              if ($errorCount -gt 0) {
+                Write-Error "PSScriptAnalyzer found $errorCount errors in $($script.Name)"
+              } else {
+                Write-Warning "PSScriptAnalyzer found issues, but no critical errors in $($script.Name)"
+              }
+            } else {
+              Write-Output "No issues found in $($script.Name)"
+            }
+          }
