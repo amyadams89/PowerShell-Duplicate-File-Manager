@@ -1,9 +1,9 @@
 # PowerShell script to find and remove actual duplicate files
 # -----------------------------------------------------------
-# Author: Your Name
+# Author: Amy Adams
 # Version: 1.1
 # Last Updated: March 3, 2025
-# GitHub: https://github.com/yourusername/PowerShell-Duplicate-File-Manager
+# GitHub: https://github.com/amyadams89/PowerShell-Duplicate-File-Manager
 # 
 # Description:
 #   This script identifies and removes duplicate files in the specified folder
