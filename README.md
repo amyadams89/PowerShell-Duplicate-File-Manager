@@ -32,7 +32,7 @@ Organizes files by size to help identify potential duplicates manually or prepar
 
 ```powershell
 # Clone the repository
-git clone https://github.com/yourusername/PowerShell-Duplicate-File-Manager.git
+git clone https://github.com/amyadams89/PowerShell-Duplicate-File-Manager.git
 cd PowerShell-Duplicate-File-Manager
 
 # Edit the script to set your OneDrive path or use parameters
