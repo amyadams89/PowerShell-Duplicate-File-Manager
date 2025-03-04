@@ -306,21 +306,29 @@ function Remove-Duplicates {
         Write-Log "`nDuplicate set $setCounter/$($DuplicateSets.Count): $($keepFile.Name) (Size: $(($fileSize / 1MB).ToString('0.00')) MB)" -Level "INFO"
         Write-Log "  Keeping: $($keepFile.FullName) (Last modified: $($keepFile.LastWriteTime))" -Level "SUCCESS"
         
-        foreach ($file in $filesToRemove) {
-            if ($WhatIf) {
-                Write-Log "  Would remove: $($file.FullName) (Last modified: $($file.LastWriteTime))" -Level "WARNING"
-            } else {
-                try {
-                    Remove-Item -Path $file.FullName -Force -ErrorAction Stop
-                    Write-Log "  Removed: $($file.FullName) (Last modified: $($file.LastWriteTime))" -Level "INFO"
-                }
-                catch {
-                    $errorCount++
-                    Write-Log "  Error removing $($file.FullName): $_" -Level "ERROR"
-                }
+# Locate the file removal section in the Remove-Duplicates function and replace it with this:
+
+foreach ($file in $filesToRemove) {
+    if ($WhatIf) {
+        Write-Log "  Would remove: $($file.FullName) (Last modified: $($file.LastWriteTime))" -Level "WARNING"
+    } else {
+        # Check if file still exists before attempting to remove
+        if (Test-Path -Path $file.FullName) {
+            try {
+                Remove-Item -Path $file.FullName -Force -ErrorAction Stop
+                Write-Log "  Removed: $($file.FullName) (Last modified: $($file.LastWriteTime))" -Level "INFO"
             }
+            catch {
+                $errorCount++
+                Write-Log "  Error removing $($file.FullName): $_" -Level "ERROR"
+            }
+        } else {
+            Write-Log "  File no longer exists: $($file.FullName)" -Level "WARNING"
+            # Don't increment error count for nonexistent files
+            # This is expected behavior with cloud storage like OneDrive
         }
     }
+}
     
     $savedSpace = [math]::Round($totalBytes / 1MB, 2)
     
