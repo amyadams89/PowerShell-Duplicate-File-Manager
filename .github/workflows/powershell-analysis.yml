@@ -1,5 +1,4 @@
 name: PowerShell Analysis
-
 on:
   push:
     branches: [ main ]
