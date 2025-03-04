@@ -25,7 +25,7 @@ jobs:
       - name: Run PSScriptAnalyzer
         shell: pwsh
         run: |
-          $scripts = Get-ChildItem -Path "./scripts" -Filter "*.ps1" -Recurse
+          $scripts = Get-ChildItem -Path "./" -Filter "*.ps1" -Depth 1
           foreach ($script in $scripts) {
             Write-Host "Analyzing: $($script.FullName)"
             $results = Invoke-ScriptAnalyzer -Path $script.FullName -ExcludeRule PSAvoidUsingWriteHost
